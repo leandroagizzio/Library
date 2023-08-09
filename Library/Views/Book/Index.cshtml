@@ -1,0 +1,81 @@
+﻿@using CoreLibrary.Models;
+@using Library.Helper;
+@using Library.Models.Interfaces;
+@model IBooksUserViewModel
+@{
+    ViewData["Title"] = "Books list";
+}
+
+<div class="text-center">
+
+    @if (Model.User.IsAdmin) {
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a class="btn btn-primary" role="button" asp-controller="Book" asp-action="Create">Add a new book</a>
+        </div>
+    }
+
+    <br />
+
+    @if (TempData[HelperData.GetSuccessTempDataKey] != null) {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            @TempData[HelperData.GetSuccessTempDataKey]
+        </div>
+    }
+
+    @if (TempData[HelperData.GetErrorTempDataKey] != null) {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            @TempData[HelperData.GetErrorTempDataKey]
+        </div>
+    }
+
+    <br />
+
+    <h1 class="display-4">Books list</h1>
+
+    <table class="table" id="table-books">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Author</th>
+                <th scope="col">Days to borrows</th>
+                @if (Model.User.IsAdmin) {
+                    <th scope="col">Edit/Delete</th>
+                }                
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model is not null && Model.Books.Any()) {
+                foreach (var bookActionInfo in Model.Books) {
+                    <tr>
+                        <th scope="row">@bookActionInfo.Book.Id</th>
+                        <td>@bookActionInfo.Book.Name</td>
+                        <td>@bookActionInfo.Book.Author</td>
+                        <td>@bookActionInfo.Book.DaysToBorrow</td>
+                        @if (Model.User.IsAdmin) {
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a role="button" class="btn btn-primary" asp-route-id="@bookActionInfo.Book.Id" asp-controller="Book" asp-action="Edit">Edit</a>
+                                    <a role="button" class="btn btn-danger" asp-route-id="@bookActionInfo.Book.Id" asp-controller="Book" asp-action="DeleteConfirmation">Delete</a>
+                                </div>
+                            </td>
+                        }
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a role="button" class="btn @bookActionInfo.ActionInfo.GetBtn"
+                                   asp-route-bookId="@bookActionInfo.Book.Id" asp-controller="Book" 
+                                   asp-action="@bookActionInfo.ActionInfo.GetAction">
+                                    @bookActionInfo.ActionInfo.GetText
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,16 @@
+﻿@using CoreLibrary.Models;
+@model Book
+@{
+    ViewData["Title"] = "Confirm to delete a book";
+}
+
+<div class="text-center">
+    <h3>Do you really want to delete the book (@Model.Name)?</h3>
+</div>
+
+<div class="text-center">
+    <div class="btn-group-vertical">
+        <a class="btn btn-primary" role="button" asp-controller="Book" asp-action="Index">Cancel the deletion</a>
+        <a class="btn btn-danger" role="button" asp-controller="Book" asp-action="Delete" asp-route-id="@Model.Id">Confirm the deletion</a>
+    </div>
+</div>

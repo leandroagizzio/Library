@@ -1,0 +1,87 @@
+﻿@using CoreLibrary.Models;
+@using Library.Helper;
+@using Library.Models.Interfaces;
+@model IList<IUserBookPossessionListViewModel>
+@{
+    ViewData["Title"] = "Users list";
+}
+
+<div class="text-center">
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start"> 
+        <a class="btn btn-primary" role="button" asp-controller="User" asp-action="Create">Add a new user</a>
+    </div>
+
+    <br />
+
+    @if (TempData[HelperData.GetSuccessTempDataKey] != null) {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            @TempData[HelperData.GetSuccessTempDataKey]
+        </div>
+    }
+
+    @if (TempData[HelperData.GetErrorTempDataKey] != null) {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+            @TempData[HelperData.GetErrorTempDataKey]
+        </div>
+    }
+
+    <br />
+
+    <h1 class="display-4">Users list</h1>
+
+    <table class="table" id="table-users">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Login</th>
+                <th scope="col">Email</th>
+                <th scope="col">Is Admin?</th>
+                <th scope="col">Books in Possession</th>
+                <th scope="col">Edit/Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model is not null && Model.Any()) {
+                foreach (var userBookPLVModel in Model) {
+                    <tr>
+                        <th scope="row">@userBookPLVModel.User.Id</th>
+                        <td>@userBookPLVModel.User.Name</td>
+                        <td>@userBookPLVModel.User.Login</td>
+                        <td>@userBookPLVModel.User.Email</td>
+                        <td>@(userBookPLVModel.User.IsAdmin ? "Admin" : "Regular")</td>
+                        <td>
+                            <a href="javascript:" user-id="@userBookPLVModel.User.Id" class="btn btn-success btn-sm btn-books-possession">
+                                @(userBookPLVModel.Books != null && userBookPLVModel.Books.Any() ? userBookPLVModel.Books.Count : 0)
+                            </a>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a role="button" class="btn btn-primary" asp-route-id="@userBookPLVModel.User.Id" asp-controller="User" asp-action="Edit">Edit</a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@userBookPLVModel.User.Id" asp-controller="User" asp-action="DeleteConfirmation">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div id="modalUserBookListPossession" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content"> 
+                <div class="modal-header">
+                    <h5 class="modal-title">Books that the user currently has in possession</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="listUserBookPossession"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

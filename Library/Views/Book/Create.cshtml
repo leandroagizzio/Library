@@ -1,0 +1,40 @@
+﻿@using CoreLibrary.Models;
+@model Book
+@{
+    ViewData["Title"] = "Create a new book";
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Add a new book</h1>
+
+</div>
+
+
+<form asp-controller="Book" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Book name">
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+
+    <div class="mb-3">
+        <label for="Author" class="form-label">Author</label>
+        <input type="text" asp-for="Author" class="form-control" placeholder="Book author">
+        @Html.ValidationMessageFor(x => x.Author)
+    </div>
+    
+    <div class="mb-3">
+        <label for="DaysToBorrow" class="form-label">Days To Borrow</label>
+        <input type="number" asp-for="DaysToBorrow" class="form-control" placeholder="Days To Borrow">
+        @Html.ValidationMessageFor(x => x.DaysToBorrow)
+    </div>
+
+    <div class="text-center">
+        <div class="btn-group-vertical">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a class="btn btn-secondary" asp-controller="Book" asp-action="Index" role="button">Go back</a>
+        </div>
+    </div>
+
+</form>

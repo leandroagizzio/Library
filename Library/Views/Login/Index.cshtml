@@ -1,0 +1,42 @@
+﻿@using Library.Helper;
+@model LoginModel
+@{
+    Layout = "_LayoutNotLogged";
+    ViewData["Title"] = "Login";
+}
+
+@if (TempData[HelperData.GetSuccessTempDataKey] != null) {
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        @TempData[HelperData.GetSuccessTempDataKey]
+    </div>
+}
+
+@if (TempData[HelperData.GetErrorTempDataKey] != null) {
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        @TempData[HelperData.GetErrorTempDataKey]
+    </div>
+}
+
+<div class="row">
+    <div class="mx-auto col-10 col-md-8 col-lg-6">
+        <form asp-controller="Login" asp-action="Login" method="post">
+            <div class="mb-3">
+                <label for="Login" class="form-label">Login</label>
+                <input type="text" asp-for="Login" class="form-control" id="login">
+                @Html.ValidationMessageFor(x => x.Login)
+            </div>
+            <div class="mb-3">
+                <label for="Password" class="form-label">Password</label>
+                <input type="password" asp-for="Password" class="form-control" id="password">
+                @Html.ValidationMessageFor(x => x.Password)
+            </div>
+            <div class="row text-center">
+                <div class="mx-auto col-10 col-md-8 col-lg-6">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

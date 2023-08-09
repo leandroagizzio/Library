@@ -1,0 +1,25 @@
+﻿@using CoreLibrary.Models.Interfaces;
+@model IList<IBook>
+
+<table class="table" id="table-books-possession">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Days to borrows</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null && Model.Any()) {
+            foreach (var book in Model) {
+                <tr>
+                    <th scope="row">@book.Id</th>
+                    <td>@book.Name</td>
+                    <td>@book.Author</td>
+                    <td>@book.DaysToBorrow</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

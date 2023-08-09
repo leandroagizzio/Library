@@ -1,0 +1,51 @@
+﻿@using CoreLibrary.Models;
+@model User
+@{
+    ViewData["Title"] = "Edit a user";
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Edit a user</h1>
+
+</div>
+
+
+<form asp-controller="User" asp-action="EditWithoutPassword" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control" placeholder="User name">
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <input type="text" asp-for="Email" class="form-control" placeholder="User email">
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div class="mb-3">
+        <label for="Login" class="form-label">Login</label>
+        <input type="text" asp-for="Login" class="form-control" placeholder="User login">
+        @Html.ValidationMessageFor(x => x.Login)
+    </div>
+    <div class="mb-3">
+        <label for="IsAdmin" class="form-label">Is Admin?</label>
+        <select asp-for="IsAdmin" class="form-control">
+            <option value="" hidden>Is Admin?</option>
+            <option value="True">True</option>
+            <option value="False">False</option>
+        </select>
+        @Html.ValidationMessageFor(x => x.IsAdmin)
+    </div>
+
+
+    <div class="text-center">
+        <div class="btn-group-vertical">
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <a class="btn btn-secondary" asp-controller="User" asp-action="Index" role="button">Go back</a>
+        </div>
+    </div>
+
+</form>
